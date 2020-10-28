@@ -3,22 +3,31 @@ package dev.vdbroek.pepijn98
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.compose.foundation.Icon
-import androidx.compose.foundation.Text
+import androidx.compose.foundation.*
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Box
 import androidx.compose.runtime.Composable
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.WithConstraints
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.LinearGradient
 import androidx.compose.ui.platform.ContextAmbient
+import androidx.compose.ui.platform.DensityAmbient
 import androidx.compose.ui.platform.setContent
+import androidx.compose.ui.res.imageResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.ui.tooling.preview.Preview
-import dev.vdbroek.pepijn98.ui.Pepijn98Theme
+import dev.vdbroek.pepijn98.ui.*
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -63,7 +72,58 @@ fun App() {
         },
         drawerShape = RoundedCornerShape(topRight = 10.dp, bottomRight = 10.dp),
         drawerContent = {
-            Text(text = "Drawer")
+            Column(modifier = Modifier.fillMaxHeight()) {
+                WithConstraints(modifier = Modifier.fillMaxWidth().height(180.dp)) {
+                    Box(modifier = Modifier.fillMaxSize().background(
+                            LinearGradient(
+                                0.0f to blue200,
+                                0.5f to blue500,
+                                1.0f to blue700,
+                                startX = 0.0f,
+                                startY = 0.0f,
+                                endX = with(DensityAmbient.current) { constraints.maxWidth.dp.toPx() },
+                                endY = with(DensityAmbient.current) { constraints.maxHeight.dp.toPx() }
+                            )
+                    )) {
+                        Box(modifier = Modifier.fillMaxSize().padding(8.dp)) {
+                            Column(modifier = Modifier.align(Alignment.BottomStart)) {
+                                Image(
+                                    asset = imageResource(id = R.drawable.profile),
+                                    modifier = Modifier.clip(CircleShape).preferredSize(100.dp)
+                                )
+                                Text(
+                                    text = "Pepijn van den Broek",
+                                    modifier = Modifier.padding(PaddingValues(0.dp, 8.dp, 8.dp, 8.dp)),
+                                    fontWeight = FontWeight(900),
+                                    color = Color.White
+                                )
+                            }
+                        }
+                    }
+                }
+                Box(modifier = Modifier.clickable(onClick = {
+                    ThemeState.override = true
+                    ThemeState.isDark = false
+                })) {
+                    Text(
+                        text = "Light Theme",
+                        modifier = Modifier.fillMaxWidth().padding(16.dp),
+                        textAlign = TextAlign.Start
+                    )
+                }
+                Divider(color = MaterialTheme.colors.onBackground)
+                Box(modifier = Modifier.clickable(onClick = {
+                    ThemeState.override = true
+                    ThemeState.isDark = true
+                })) {
+                    Text(
+                        text = "Dark Theme",
+                        modifier = Modifier.fillMaxWidth().padding(16.dp),
+                        textAlign = TextAlign.Start
+                    )
+                }
+                Divider(color = MaterialTheme.colors.onBackground)
+            }
         },
         bottomBar = {
             BottomAppBar(cutoutShape = fabShape) {
@@ -99,7 +159,7 @@ fun App() {
 @Preview
 @Composable
 fun DefaultPreview() {
-    Pepijn98Theme(darkTheme = true) {
+    Pepijn98Theme {
         App()
     }
 }

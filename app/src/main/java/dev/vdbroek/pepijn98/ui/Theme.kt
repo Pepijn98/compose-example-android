@@ -5,31 +5,32 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.darkColors
 import androidx.compose.material.lightColors
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.setValue
+
+object ThemeState {
+    var isDark by mutableStateOf(true)
+    var override by mutableStateOf(false)
+}
 
 private val DarkColorPalette = darkColors(
-        primary = purple200,
-        primaryVariant = purple700,
-        secondary = teal200
+    primary = blue200,
+    primaryVariant = blue700,
+    secondary = orange200
 )
 
 private val LightColorPalette = lightColors(
-        primary = purple500,
-        primaryVariant = purple700,
-        secondary = teal200
-
-        /* Other default colors to override
-    background = Color.White,
-    surface = Color.White,
-    onPrimary = Color.White,
-    onSecondary = Color.Black,
-    onBackground = Color.Black,
-    onSurface = Color.Black,
-    */
+    primary = blue500,
+    primaryVariant = blue700,
+    secondary = orange200
 )
 
 @Composable
-fun Pepijn98Theme(darkTheme: Boolean = isSystemInDarkTheme(), content: @Composable () -> Unit) {
-    val colors = if (darkTheme) {
+fun Pepijn98Theme(content: @Composable () -> Unit) {
+    ThemeState.isDark = if (ThemeState.override) ThemeState.isDark else isSystemInDarkTheme()
+
+    val colors = if (ThemeState.isDark) {
         DarkColorPalette
     } else {
         LightColorPalette
