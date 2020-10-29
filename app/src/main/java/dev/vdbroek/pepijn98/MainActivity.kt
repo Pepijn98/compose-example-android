@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.lazy.LazyColumnFor
 import androidx.compose.runtime.Composable
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -28,6 +29,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.ui.tooling.preview.Preview
 import dev.vdbroek.pepijn98.ui.*
+import dev.vdbroek.pepijn98.util.Nature
 import dev.vdbroek.pepijn98.util.images
 
 class MainActivity : AppCompatActivity() {
@@ -159,30 +161,46 @@ fun App() {
             }
         },
         bodyContent = {
-            ScrollableColumn(modifier = Modifier.padding(PaddingValues(0.dp, 0.dp, 0.dp, 60.dp))) {
-                images.forEach { (i, image) ->
-                    Card(
-                        modifier = Modifier.height(180.dp).fillMaxWidth().padding(8.dp),
-                        shape = RoundedCornerShape(8.dp),
-                        elevation = 4.dp
-                    ) {
-                        Row(modifier = Modifier.fillMaxSize()) {
-                            Image(
-                                modifier = Modifier.height(180.dp).width(180.dp),
-                                asset = imageResource(id = image),
-                                alignment = Alignment.CenterStart
-                            )
-                            Text(
-                                text = "Nature $i",
-                                modifier = Modifier.padding(PaddingValues(16.dp, 8.dp, 0.dp, 0.dp)),
-                                fontWeight = FontWeight(900)
-                            )
-                        }
-                    }
-                }
-            }
+//            ScrollableColumn(modifier = Modifier.padding(PaddingValues(0.dp, 0.dp, 0.dp, 60.dp))) {
+//                
+//            }
+            NatureList(natureList = images)
         }
     )
+}
+
+@Composable
+private fun NatureList(natureList: List<Nature>) {
+    val context = ContextAmbient.current
+    LazyColumnFor(items = natureList) { nature ->
+        NatureRow(nature = nature, onNatureClick = {
+            Toast.makeText(context, "Nature ${nature.id}", Toast.LENGTH_SHORT).show()
+        })
+    }
+}
+
+@Composable
+private fun NatureRow(nature: Nature, onNatureClick: (Nature) -> Unit) {
+    Row(modifier = Modifier.fillMaxWidth().padding(8.dp)) {
+        Card(
+            modifier = Modifier.clickable(onClick = { onNatureClick(nature) }).fillMaxWidth().height(180.dp).padding(8.dp),
+            shape = RoundedCornerShape(8.dp),
+            elevation = 4.dp
+        ) {
+            Row(modifier = Modifier.fillMaxSize()) {
+                Image(
+                    modifier = Modifier.height(180.dp).width(180.dp),
+                    asset = imageResource(id = nature.image),
+                    alignment = Alignment.CenterStart
+                )
+                Text(
+                    text = "Nature ${nature.id}",
+                    modifier = Modifier.padding(PaddingValues(16.dp, 8.dp, 0.dp, 0.dp)),
+                    fontWeight = FontWeight(900)
+                )
+            }
+        }
+    }
 }
 
 @Preview
