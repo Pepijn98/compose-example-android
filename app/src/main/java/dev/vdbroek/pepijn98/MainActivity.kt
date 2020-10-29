@@ -13,6 +13,9 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.WithConstraints
@@ -48,6 +51,7 @@ fun App() {
     val fabShape = CircleShape
     val context = ContextAmbient.current
     val state = rememberScaffoldState()
+    var openDialog by mutableStateOf(false)
 
     Scaffold(
         scaffoldState = state,
@@ -56,7 +60,6 @@ fun App() {
                 navigationIcon = {
                     IconButton(onClick = {
                         state.drawerState.open()
-                        Toast.makeText(context, "Menu", Toast.LENGTH_SHORT).show()
                     }) {
                         Icon(Icons.Filled.Menu)
                     }
@@ -155,16 +158,33 @@ fun App() {
         floatingActionButton = {
             FloatingActionButton(
                 shape = fabShape,
-                onClick = {}
+                onClick = { openDialog = true }
             ) {
                 Icon(asset = Icons.Filled.Add)
             }
         },
         bodyContent = {
-//            ScrollableColumn(modifier = Modifier.padding(PaddingValues(0.dp, 0.dp, 0.dp, 60.dp))) {
-//                
-//            }
             NatureList(natureList = images)
+            if (openDialog) {
+                AlertDialog(
+                    onDismissRequest = {
+                        openDialog = false
+                    },
+                    title = {
+                        Text(text = "New Nature")
+                    },
+                    text = {
+                        Text("Add new nature alert dialog!")
+                    },
+                    confirmButton = {
+                        Button(onClick = {
+                            openDialog = false
+                        }) {
+                            Text(text = "Confirm")
+                        }
+                    }
+                )
+            }
         }
     )
 }
@@ -172,7 +192,7 @@ fun App() {
 @Composable
 private fun NatureList(natureList: List<Nature>) {
     val context = ContextAmbient.current
-    LazyColumnFor(items = natureList) { nature ->
+    LazyColumnFor(items = natureList, modifier = Modifier.fillMaxSize().padding(PaddingValues(0.dp, 0.dp, 0.dp, 0.dp))) { nature ->
         NatureRow(nature = nature, onNatureClick = {
             Toast.makeText(context, "Nature ${nature.id}", Toast.LENGTH_SHORT).show()
         })
@@ -181,15 +201,15 @@ private fun NatureList(natureList: List<Nature>) {
 
 @Composable
 private fun NatureRow(nature: Nature, onNatureClick: (Nature) -> Unit) {
-    Row(modifier = Modifier.fillMaxWidth().padding(8.dp)) {
+    Box(modifier = Modifier.fillMaxWidth().padding(PaddingValues(16.dp, 16.dp, 16.dp, if (nature.id == 9) 74.dp else 0.dp))) {
         Card(
-            modifier = Modifier.clickable(onClick = { onNatureClick(nature) }).fillMaxWidth().height(180.dp).padding(8.dp),
+            modifier = Modifier.clickable(onClick = { onNatureClick(nature) }).fillMaxWidth().height(160.dp),
             shape = RoundedCornerShape(8.dp),
             elevation = 4.dp
         ) {
             Row(modifier = Modifier.fillMaxSize()) {
                 Image(
-                    modifier = Modifier.height(180.dp).width(180.dp),
+                    modifier = Modifier.fillMaxHeight().width(160.dp),
                     asset = imageResource(id = nature.image),
                     alignment = Alignment.CenterStart
                 )
