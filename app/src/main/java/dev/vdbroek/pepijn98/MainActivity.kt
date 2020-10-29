@@ -159,7 +159,7 @@ fun App() {
             }
         },
         bodyContent = {
-            ScrollableColumn(modifier = Modifier.padding(PaddingValues(4.dp, 4.dp, 4.dp, 60.dp))) {
+            ScrollableColumn(modifier = Modifier.padding(PaddingValues(0.dp, 0.dp, 0.dp, 60.dp))) {
                 images.forEach { (i, image) ->
                     Card(
                         modifier = Modifier.height(180.dp).fillMaxWidth().padding(8.dp),
@@ -173,7 +173,7 @@ fun App() {
                                 alignment = Alignment.CenterStart
                             )
                             Text(
-                                text = "Nature ${i + 1}",
+                                text = "Nature $i",
                                 modifier = Modifier.padding(PaddingValues(16.dp, 8.dp, 0.dp, 0.dp)),
                                 fontWeight = FontWeight(900)
                             )
