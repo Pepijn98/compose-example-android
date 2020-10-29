@@ -28,6 +28,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.ui.tooling.preview.Preview
 import dev.vdbroek.pepijn98.ui.*
+import dev.vdbroek.pepijn98.util.images
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -75,15 +76,15 @@ fun App() {
             Column(modifier = Modifier.fillMaxHeight()) {
                 WithConstraints(modifier = Modifier.fillMaxWidth().height(180.dp)) {
                     Box(modifier = Modifier.fillMaxSize().background(
-                            LinearGradient(
-                                0.0f to blue200,
-                                0.5f to blue500,
-                                1.0f to blue700,
-                                startX = 0.0f,
-                                startY = 0.0f,
-                                endX = with(DensityAmbient.current) { constraints.maxWidth.dp.toPx() },
-                                endY = with(DensityAmbient.current) { constraints.maxHeight.dp.toPx() }
-                            )
+                        LinearGradient(
+                            0.0f to blue200,
+                            0.5f to blue500,
+                            1.0f to blue700,
+                            startX = 0.0f,
+                            startY = 0.0f,
+                            endX = with(DensityAmbient.current) { constraints.maxWidth.dp.toPx() },
+                            endY = with(DensityAmbient.current) { constraints.maxHeight.dp.toPx() }
+                        )
                     )) {
                         Box(modifier = Modifier.fillMaxSize().padding(8.dp)) {
                             Column(modifier = Modifier.align(Alignment.BottomStart)) {
@@ -93,7 +94,14 @@ fun App() {
                                 )
                                 Text(
                                     text = "Pepijn van den Broek",
-                                    modifier = Modifier.padding(PaddingValues(0.dp, 8.dp, 8.dp, 8.dp)),
+                                    modifier = Modifier.padding(
+                                        PaddingValues(
+                                            0.dp,
+                                            8.dp,
+                                            8.dp,
+                                            8.dp
+                                        )
+                                    ),
                                     fontWeight = FontWeight(900),
                                     color = Color.White
                                 )
@@ -151,7 +159,28 @@ fun App() {
             }
         },
         bodyContent = {
-            //bodyContent()
+            ScrollableColumn(modifier = Modifier.padding(PaddingValues(4.dp, 4.dp, 4.dp, 60.dp))) {
+                images.forEach { (i, image) ->
+                    Card(
+                        modifier = Modifier.height(180.dp).fillMaxWidth().padding(8.dp),
+                        shape = RoundedCornerShape(8.dp),
+                        elevation = 4.dp
+                    ) {
+                        Row(modifier = Modifier.fillMaxSize()) {
+                            Image(
+                                modifier = Modifier.height(180.dp).width(180.dp),
+                                asset = imageResource(id = image),
+                                alignment = Alignment.CenterStart
+                            )
+                            Text(
+                                text = "Nature ${i + 1}",
+                                modifier = Modifier.padding(PaddingValues(16.dp, 8.dp, 0.dp, 0.dp)),
+                                fontWeight = FontWeight(900)
+                            )
+                        }
+                    }
+                }
+            }
         }
     )
 }
