@@ -192,7 +192,10 @@ fun App() {
 @Composable
 private fun NatureList(natureList: List<Nature>) {
     val context = ContextAmbient.current
-    LazyColumnFor(items = natureList, modifier = Modifier.fillMaxSize().padding(PaddingValues(0.dp, 0.dp, 0.dp, 0.dp))) { nature ->
+    LazyColumnFor(
+        items = natureList,
+        modifier = Modifier.fillMaxSize().padding(PaddingValues(0.dp, 0.dp, 0.dp, 0.dp))
+    ) { nature ->
         NatureRow(nature = nature, onNatureClick = {
             Toast.makeText(context, "Nature ${nature.id}", Toast.LENGTH_SHORT).show()
         })
@@ -201,9 +204,14 @@ private fun NatureList(natureList: List<Nature>) {
 
 @Composable
 private fun NatureRow(nature: Nature, onNatureClick: (Nature) -> Unit) {
-    Box(modifier = Modifier.fillMaxWidth().padding(PaddingValues(16.dp, 16.dp, 16.dp, if (nature.id == 9) 74.dp else 0.dp))) {
+    Box(
+        modifier = Modifier.fillMaxWidth()
+            .padding(PaddingValues(16.dp, 16.dp, 16.dp, if (nature.id == 9) 74.dp else 0.dp))
+    ) {
         Card(
-            modifier = Modifier.clickable(onClick = { onNatureClick(nature) }).fillMaxWidth().height(160.dp),
+            modifier = Modifier.clickable(onClick = { onNatureClick(nature) })
+                .fillMaxWidth()
+                .height(160.dp),
             shape = RoundedCornerShape(8.dp),
             elevation = 4.dp
         ) {
