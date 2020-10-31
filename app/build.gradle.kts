@@ -50,6 +50,7 @@ dependencies {
     implementation(kotlin("stdlib"))
 
     implementation("com.google.android.material:material:1.2.1")
+    implementation("com.github.zsoltk:compose-router:0.21.0")
 
     implementation("androidx.core:core-ktx:1.3.2")
     implementation("androidx.appcompat:appcompat:1.2.0")
