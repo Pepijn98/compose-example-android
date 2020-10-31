@@ -37,14 +37,23 @@ interface Root {
                 val listState = rememberLazyListState()
 
                 val onButtonClicked: (Routing) -> Unit = {
+                    // pop element from backstack if it's more or equal to 2
+                    // I have done this in this example app to prevent a massive backstack of just 2 routes
+                    // 2 should be the amount of routes
+                    if (backStack.elements.count() >= 2) {
+                        backStack.pop()
+                    }
+
+                    // Only push to the backstack if the last route isn't the same as the one it's trying to go to
                     if (backStack.last() != it) {
                         when (it) {
-                            Routing.Home -> backStack.pushAndDropNested(Routing.Home)
+                            Routing.Home -> backStack.push(Routing.Home)
                             Routing.Profile -> backStack.push(Routing.Profile)
                         }
                     }
                 }
 
+                // Default scaffold which holds all the content
                 Scaffold(
                     scaffoldState = state,
                     topBar = { TopBar(state = state) },
@@ -62,6 +71,7 @@ interface Root {
                         }
                     },
                     bodyContent = {
+                        // Changes the body content based on which route we're on
                         when (backStack.last()) {
                             is Routing.Home -> Home.Content(listState = listState)
                             is Routing.Profile -> Profile.Content()
