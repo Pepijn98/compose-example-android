@@ -12,13 +12,16 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.imageResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import dev.vdbroek.pepijn98.R
 import dev.vdbroek.pepijn98.common.Carousel
 import dev.vdbroek.pepijn98.openDialog
 import dev.vdbroek.pepijn98.models.Nature
 import dev.vdbroek.pepijn98.models.natureList1
 import dev.vdbroek.pepijn98.models.natureList2
+import dev.vdbroek.pepijn98.title
 
 val padding = 16.dp
 val corner = 10.dp
@@ -33,6 +36,8 @@ interface Home {
             carouselState: LazyListState,
             onNatureClicked: (Nature) -> Unit
         ) {
+            title = stringResource(id = R.string.app_name)
+
             ScrollableColumn(
                 modifier = Modifier.padding(0.dp),
                 scrollState = scrollState
@@ -47,7 +52,7 @@ interface Home {
                     contentPadding = PaddingValues(top = padding, end = padding)
                 ) { nature, _ ->
                     Card(
-                        modifier = Modifier.height(220.dp - padding).width(220.dp).padding(start = padding),
+                        modifier = Modifier.size(height = 220.dp - padding, width = 220.dp).padding(start = padding).clickable(onClick = { onNatureClicked(nature) }),
                         shape = RoundedCornerShape(corner),
                         elevation = elevation
                     ) {

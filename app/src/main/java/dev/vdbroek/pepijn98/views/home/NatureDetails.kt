@@ -12,6 +12,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.imageResource
 import androidx.compose.ui.unit.dp
 import dev.vdbroek.pepijn98.models.Nature
+import dev.vdbroek.pepijn98.title
 
 interface NatureDetails {
 
@@ -21,6 +22,8 @@ interface NatureDetails {
             ScrollableColumn(
                 modifier = Modifier.padding(0.dp)
             ) {
+                title = "Nature ${nature.id}"
+
                 Image(
                     asset = imageResource(id = nature.image),
                     modifier = Modifier.padding(start = padding, top = padding, end = padding).fillMaxWidth().height(180.dp).clip(RoundedCornerShape(corner)),

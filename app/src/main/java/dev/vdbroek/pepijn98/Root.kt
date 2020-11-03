@@ -9,6 +9,7 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.runtime.*
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.github.zsoltk.compose.router.Router
 import dev.vdbroek.pepijn98.common.*
@@ -18,7 +19,8 @@ import dev.vdbroek.pepijn98.views.home.NatureDetails
 import dev.vdbroek.pepijn98.views.profile.Profile
 
 val fabShape = CircleShape
-var openDialog by mutableStateOf(false)
+var openDialog: Boolean by mutableStateOf(false)
+var title: String? by mutableStateOf(null)
 
 interface Root {
 
@@ -34,8 +36,8 @@ interface Root {
             Router(defaultRouting) { backStack ->
                 val state = rememberScaffoldState()
 
-                val scrollState = rememberScrollState()
-                val carouselState = rememberLazyListState()
+                val natureListState = rememberScrollState()
+                val natureCarouselState = rememberLazyListState()
 
                 val handleRoute: (Routing) -> Unit = {
                     // Only push to the backstack if the last route isn't the same as the one it's trying to go to
@@ -43,28 +45,32 @@ interface Root {
                         when (it) {
                             Routing.Home -> backStack.push(Routing.Home)
                             Routing.Profile -> backStack.push(Routing.Profile)
-                            else -> {} // Do Nothing
+                            else -> {
+                                // Do Nothing
+                            }
                         }
                     }
                 }
+
+                val fabHidden = backStack.last() is Routing.NatureDetails
 
                 // Default scaffold which holds all the content
                 Scaffold(
                     scaffoldState = state,
                     topBar = {
-                        TopBar(state = state)
+                        TopBar(state = state, title = title)
                     },
                     drawerShape = RoundedCornerShape(topRight = 10.dp, bottomRight = 10.dp),
                     drawerContent = {
                         Drawer()
                     },
                     bottomBar = {
-                        BottomBar(handleRoute)
+                        BottomBar(fabHidden, handleRoute)
                     },
                     floatingActionButtonPosition = FabPosition.Center,
                     isFloatingActionButtonDocked = true,
                     floatingActionButton = {
-                        FloatingActionButton(
+                        if (!fabHidden) FloatingActionButton(
                             shape = fabShape,
                             onClick = { openDialog = true }
                         ) {
@@ -74,9 +80,9 @@ interface Root {
                     bodyContent = {
                         // Changes the body content based on which route we're on
                         when (val routing = backStack.last()) {
-                            is Routing.Home -> Home.Content(scrollState, carouselState, onNatureClicked = {
+                            is Routing.Home -> Home.Content(natureListState, natureCarouselState) {
                                 backStack.push(Routing.NatureDetails(it))
-                            })
+                            }
                             is Routing.NatureDetails -> NatureDetails.Content(routing.nature)
                             is Routing.Profile -> Profile.Content()
                         }

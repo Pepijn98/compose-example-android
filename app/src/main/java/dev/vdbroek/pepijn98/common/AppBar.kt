@@ -22,24 +22,20 @@ import dev.vdbroek.pepijn98.Root
 import dev.vdbroek.pepijn98.fabShape
 
 @Composable
-fun TopBar(state: ScaffoldState) {
+fun TopBar(state: ScaffoldState, title: String?) {
     val context = ContextAmbient.current
 
     TopAppBar(
         navigationIcon = {
-            IconButton(onClick = {
-                state.drawerState.open()
-            }) {
+            IconButton(onClick = { state.drawerState.open() }) {
                 Icon(asset = Icons.Filled.Menu)
             }
         },
         title = {
-            Text(text = stringResource(R.string.app_name))
+            Text(text = title ?: stringResource(id = R.string.app_name))
         },
         actions = {
-            IconButton(onClick = {
-                Toast.makeText(context, "Search", Toast.LENGTH_SHORT).show()
-            }) {
+            IconButton(onClick = { Toast.makeText(context, "Search", Toast.LENGTH_SHORT).show() }) {
                 Icon(asset = Icons.Filled.Search)
             }
         }
@@ -47,8 +43,8 @@ fun TopBar(state: ScaffoldState) {
 }
 
 @Composable
-fun BottomBar(onButtonClicked: (Root.Routing) -> Unit) {
-    BottomAppBar(cutoutShape = fabShape) {
+fun BottomBar(fabHidden: Boolean, onButtonClicked: (Root.Routing) -> Unit) {
+    BottomAppBar(cutoutShape = if (fabHidden) null else fabShape) {
         IconButton(onClick = { onButtonClicked(Root.Routing.Home) }) {
             Icon(asset = Icons.Filled.Home)
         }

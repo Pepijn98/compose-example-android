@@ -12,12 +12,15 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 import androidx.ui.tooling.preview.Preview
 import dev.vdbroek.pepijn98.openDialog
+import dev.vdbroek.pepijn98.title
 
 interface Profile {
 
     companion object {
         @Composable
         fun Content() {
+            title = "Profile"
+
             Box(modifier = Modifier.fillMaxSize()) {
                 Text(
                     modifier = Modifier.align(Alignment.Center),
