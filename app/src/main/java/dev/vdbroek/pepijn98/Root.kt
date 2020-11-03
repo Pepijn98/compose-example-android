@@ -38,18 +38,12 @@ interface Root {
                 val carouselState = rememberLazyListState()
 
                 val handleRoute: (Routing) -> Unit = {
-                    // pop element from backstack if it's more or equal to 3
-                    // I have done this in this example app to prevent a massive backstack of just 3 routes
-                    // 2 should be the amount of routes
-                    if (backStack.elements.count() >= 3) {
-                        backStack.pop()
-                    }
-
                     // Only push to the backstack if the last route isn't the same as the one it's trying to go to
                     if (backStack.last() != it) {
                         when (it) {
                             Routing.Home -> backStack.push(Routing.Home)
                             Routing.Profile -> backStack.push(Routing.Profile)
+                            else -> {} // Do Nothing
                         }
                     }
                 }
