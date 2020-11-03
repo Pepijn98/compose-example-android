@@ -48,7 +48,8 @@ interface Home {
                     contentPadding = PaddingValues(0.dp, padding, padding, 0.dp)
                 ) { nature, _ ->
                     Card(
-                        modifier = Modifier.height(220.dp - padding).width(220.dp).padding(PaddingValues(padding, 0.dp, 0.dp, 0.dp)),
+                        modifier = Modifier.height(220.dp - padding).width(220.dp)
+                            .padding(PaddingValues(padding, 0.dp, 0.dp, 0.dp)),
                         shape = RoundedCornerShape(corner),
                         elevation = elevation
                     ) {
