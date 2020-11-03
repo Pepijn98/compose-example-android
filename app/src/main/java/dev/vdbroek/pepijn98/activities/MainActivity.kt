@@ -1,4 +1,4 @@
-package dev.vdbroek.pepijn98
+package dev.vdbroek.pepijn98.activities
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
@@ -7,6 +7,7 @@ import androidx.compose.ui.platform.setContent
 import androidx.ui.tooling.preview.Preview
 import com.github.zsoltk.compose.backpress.AmbientBackPressHandler
 import com.github.zsoltk.compose.backpress.BackPressHandler
+import dev.vdbroek.pepijn98.Root
 import dev.vdbroek.pepijn98.ui.*
 
 class MainActivity : AppCompatActivity() {

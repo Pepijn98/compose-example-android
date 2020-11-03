@@ -1,11 +1,9 @@
-package dev.vdbroek.pepijn98.home
+package dev.vdbroek.pepijn98.views.home
 
-import android.widget.Toast
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.lazy.LazyListState
-import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.AlertDialog
 import androidx.compose.material.Button
@@ -13,19 +11,17 @@ import androidx.compose.material.Card
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.ContextAmbient
 import androidx.compose.ui.res.imageResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.ui.tooling.preview.Preview
 import dev.vdbroek.pepijn98.common.Carousel
 import dev.vdbroek.pepijn98.openDialog
-import dev.vdbroek.pepijn98.util.Nature
-import dev.vdbroek.pepijn98.util.natureList1
-import dev.vdbroek.pepijn98.util.natureList2
+import dev.vdbroek.pepijn98.models.Nature
+import dev.vdbroek.pepijn98.models.natureList1
+import dev.vdbroek.pepijn98.models.natureList2
 
 val padding = 16.dp
-val corner = 8.dp
+val corner = 10.dp
 val elevation = 4.dp
 
 interface Home {
@@ -34,22 +30,24 @@ interface Home {
         @Composable
         fun Content(
             scrollState: ScrollState,
-            carouselState: LazyListState
+            carouselState: LazyListState,
+            onNatureClicked: (Nature) -> Unit
         ) {
             ScrollableColumn(
-                modifier = Modifier.padding(PaddingValues(0.dp, 0.dp, 0.dp, 0.dp)),
+                modifier = Modifier.padding(0.dp),
                 scrollState = scrollState
             ) {
-                NatureList(natures = natureList1)
+                for (nature in natureList1) {
+                    NatureRow(nature, onNatureClicked)
+                }
 
                 Carousel(
                     items = natureList1 + natureList2,
                     state = carouselState,
-                    contentPadding = PaddingValues(0.dp, padding, padding, 0.dp)
+                    contentPadding = PaddingValues(top = padding, end = padding)
                 ) { nature, _ ->
                     Card(
-                        modifier = Modifier.height(220.dp - padding).width(220.dp)
-                            .padding(PaddingValues(padding, 0.dp, 0.dp, 0.dp)),
+                        modifier = Modifier.height(220.dp - padding).width(220.dp).padding(start = padding),
                         shape = RoundedCornerShape(corner),
                         elevation = elevation
                     ) {
@@ -60,7 +58,9 @@ interface Home {
                     }
                 }
 
-                NatureList(natures = natureList2)
+                for (nature in natureList2) {
+                    NatureRow(nature, onNatureClicked)
+                }
             }
 
             if (openDialog) {
@@ -88,28 +88,17 @@ interface Home {
 }
 
 @Composable
-private fun NatureList(natures: List<Nature>) {
-    val context = ContextAmbient.current
-    for (nature in natures) {
-        NatureRow(
-            nature = nature,
-            onNatureClick = {
-                Toast.makeText(context, "Nature ${nature.id}", Toast.LENGTH_SHORT).show()
-            }
-        )
-    }
-}
-
-@Composable
-private fun NatureRow(nature: Nature, onNatureClick: (Nature) -> Unit) {
+private fun NatureRow(nature: Nature, onNatureClicked: (Nature) -> Unit) {
     Box(
-        modifier = Modifier.fillMaxWidth()
-            .padding(PaddingValues(padding, padding, padding, if (nature.id == 9) 74.dp else 0.dp))
+        modifier = Modifier.fillMaxWidth().padding(
+            start = padding,
+            top = padding,
+            end = padding,
+            bottom = if (nature.id == 9) 74.dp else 0.dp
+        )
     ) {
         Card(
-            modifier = Modifier.clickable(onClick = { onNatureClick(nature) })
-                .fillMaxWidth()
-                .height(160.dp),
+            modifier = Modifier.fillMaxWidth().height(160.dp).clickable(onClick = { onNatureClicked(nature) }),
             shape = RoundedCornerShape(corner),
             elevation = elevation
         ) {
@@ -121,18 +110,13 @@ private fun NatureRow(nature: Nature, onNatureClick: (Nature) -> Unit) {
                 )
                 Text(
                     text = "Nature ${nature.id}",
-                    modifier = Modifier.padding(PaddingValues(padding, padding / 2, 0.dp, 0.dp)),
+                    modifier = Modifier.padding(
+                        start = padding,
+                        top = padding / 2
+                    ),
                     fontWeight = FontWeight(900)
                 )
             }
         }
     }
-}
-
-@Preview
-@Composable
-fun PreviewMainScreen() {
-    val scrollState = rememberScrollState()
-    val carouselState = rememberLazyListState()
-    Home.Content(scrollState, carouselState)
 }

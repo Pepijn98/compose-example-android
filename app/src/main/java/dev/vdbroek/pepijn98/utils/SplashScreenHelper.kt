@@ -1,11 +1,10 @@
-package dev.vdbroek.pepijn98.util
+package dev.vdbroek.pepijn98.utils
 
 import android.app.Activity
 import android.app.Application
 import android.content.pm.PackageManager
 import android.os.Bundle
 import dev.vdbroek.pepijn98.R
-
 
 class SplashScreenHelper : Application.ActivityLifecycleCallbacks {
 

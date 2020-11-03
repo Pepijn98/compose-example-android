@@ -8,17 +8,14 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.*
 import androidx.compose.ui.unit.dp
 import com.github.zsoltk.compose.router.Router
-import dev.vdbroek.pepijn98.common.BottomBar
-import dev.vdbroek.pepijn98.common.Drawer
-import dev.vdbroek.pepijn98.common.TopBar
-import dev.vdbroek.pepijn98.home.Home
-import dev.vdbroek.pepijn98.profile.Profile
+import dev.vdbroek.pepijn98.common.*
+import dev.vdbroek.pepijn98.models.Nature
+import dev.vdbroek.pepijn98.views.home.Home
+import dev.vdbroek.pepijn98.views.home.NatureDetails
+import dev.vdbroek.pepijn98.views.profile.Profile
 
 val fabShape = CircleShape
 var openDialog by mutableStateOf(false)
@@ -27,6 +24,7 @@ interface Root {
 
     sealed class Routing {
         object Home : Routing()
+        data class NatureDetails(val nature: Nature) : Routing()
         object Profile : Routing()
     }
 
@@ -39,11 +37,11 @@ interface Root {
                 val scrollState = rememberScrollState()
                 val carouselState = rememberLazyListState()
 
-                val onButtonClicked: (Routing) -> Unit = {
-                    // pop element from backstack if it's more or equal to 2
-                    // I have done this in this example app to prevent a massive backstack of just 2 routes
+                val handleRoute: (Routing) -> Unit = {
+                    // pop element from backstack if it's more or equal to 3
+                    // I have done this in this example app to prevent a massive backstack of just 3 routes
                     // 2 should be the amount of routes
-                    if (backStack.elements.count() >= 2) {
+                    if (backStack.elements.count() >= 3) {
                         backStack.pop()
                     }
 
@@ -59,10 +57,16 @@ interface Root {
                 // Default scaffold which holds all the content
                 Scaffold(
                     scaffoldState = state,
-                    topBar = { TopBar(state = state) },
+                    topBar = {
+                        TopBar(state = state)
+                    },
                     drawerShape = RoundedCornerShape(topRight = 10.dp, bottomRight = 10.dp),
-                    drawerContent = { Drawer() },
-                    bottomBar = { BottomBar(onButtonClicked) },
+                    drawerContent = {
+                        Drawer()
+                    },
+                    bottomBar = {
+                        BottomBar(handleRoute)
+                    },
                     floatingActionButtonPosition = FabPosition.Center,
                     isFloatingActionButtonDocked = true,
                     floatingActionButton = {
@@ -75,8 +79,11 @@ interface Root {
                     },
                     bodyContent = {
                         // Changes the body content based on which route we're on
-                        when (backStack.last()) {
-                            is Routing.Home -> Home.Content(scrollState, carouselState)
+                        when (val routing = backStack.last()) {
+                            is Routing.Home -> Home.Content(scrollState, carouselState, onNatureClicked = {
+                                backStack.push(Routing.NatureDetails(it))
+                            })
+                            is Routing.NatureDetails -> NatureDetails.Content(routing.nature)
                             is Routing.Profile -> Profile.Content()
                         }
                     }

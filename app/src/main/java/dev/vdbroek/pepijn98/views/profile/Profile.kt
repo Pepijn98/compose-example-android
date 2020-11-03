@@ -1,4 +1,4 @@
-package dev.vdbroek.pepijn98.profile
+package dev.vdbroek.pepijn98.views.profile
 
 import androidx.compose.foundation.Text
 import androidx.compose.foundation.layout.Box

@@ -22,7 +22,7 @@ fun <T> Carousel(
     itemContent: @Composable LazyItemScope.(T, PaddingValues) -> Unit
 ) {
     val halfSpacing = itemSpacing / 2
-    val spacingContent = PaddingValues(halfSpacing, 0.dp, halfSpacing, 0.dp)
+    val spacingContent = PaddingValues(start = halfSpacing, end = halfSpacing)
 
     LazyRowFor(
         items = items,

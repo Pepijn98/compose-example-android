@@ -39,9 +39,9 @@ fun Pepijn98Theme(content: @Composable () -> Unit) {
     }
 
     MaterialTheme(
-            colors = colors,
-            typography = typography,
-            shapes = shapes,
-            content = content
+        colors = colors,
+        typography = typography,
+        shapes = shapes,
+        content = content
     )
 }

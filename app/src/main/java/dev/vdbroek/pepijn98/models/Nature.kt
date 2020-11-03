@@ -1,4 +1,4 @@
-package dev.vdbroek.pepijn98.util
+package dev.vdbroek.pepijn98.models
 
 import dev.vdbroek.pepijn98.R
 
