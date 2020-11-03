@@ -1,11 +1,9 @@
 package dev.vdbroek.pepijn98.home
 
 import android.widget.Toast
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.Text
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumnFor
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -20,16 +18,49 @@ import androidx.compose.ui.res.imageResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.ui.tooling.preview.Preview
+import dev.vdbroek.pepijn98.common.Carousel
 import dev.vdbroek.pepijn98.openDialog
 import dev.vdbroek.pepijn98.util.Nature
-import dev.vdbroek.pepijn98.util.images
+import dev.vdbroek.pepijn98.util.natureList1
+import dev.vdbroek.pepijn98.util.natureList2
+
+val padding = 16.dp
+val corner = 8.dp
+val elevation = 4.dp
 
 interface Home {
 
     companion object {
         @Composable
-        fun Content(listState: LazyListState) {
-            NatureList(natureList = images, state = listState)
+        fun Content(
+            scrollState: ScrollState,
+            carouselState: LazyListState
+        ) {
+            ScrollableColumn(
+                modifier = Modifier.padding(PaddingValues(0.dp, 0.dp, 0.dp, 0.dp)),
+                scrollState = scrollState
+            ) {
+                NatureList(natures = natureList1)
+
+                Carousel(
+                    items = natureList1 + natureList2,
+                    state = carouselState,
+                    contentPadding = PaddingValues(0.dp, padding, padding, 0.dp)
+                ) { nature, _ ->
+                    Card(
+                        modifier = Modifier.height(220.dp - padding).width(220.dp).padding(PaddingValues(padding, 0.dp, 0.dp, 0.dp)),
+                        shape = RoundedCornerShape(corner),
+                        elevation = elevation
+                    ) {
+                        Image(
+                            asset = imageResource(id = nature.image),
+                            modifier = Modifier.size(220.dp)
+                        )
+                    }
+                }
+
+                NatureList(natures = natureList2)
+            }
 
             if (openDialog) {
                 AlertDialog(
@@ -56,13 +87,9 @@ interface Home {
 }
 
 @Composable
-private fun NatureList(natureList: List<Nature>, state: LazyListState) {
+private fun NatureList(natures: List<Nature>) {
     val context = ContextAmbient.current
-    LazyColumnFor(
-        items = natureList,
-        modifier = Modifier.fillMaxSize().padding(PaddingValues(0.dp, 0.dp, 0.dp, 0.dp)),
-        state = state
-    ) { nature ->
+    for (nature in natures) {
         NatureRow(
             nature = nature,
             onNatureClick = {
@@ -76,14 +103,14 @@ private fun NatureList(natureList: List<Nature>, state: LazyListState) {
 private fun NatureRow(nature: Nature, onNatureClick: (Nature) -> Unit) {
     Box(
         modifier = Modifier.fillMaxWidth()
-            .padding(PaddingValues(16.dp, 16.dp, 16.dp, if (nature.id == 9) 74.dp else 0.dp))
+            .padding(PaddingValues(padding, padding, padding, if (nature.id == 9) 74.dp else 0.dp))
     ) {
         Card(
             modifier = Modifier.clickable(onClick = { onNatureClick(nature) })
                 .fillMaxWidth()
                 .height(160.dp),
-            shape = RoundedCornerShape(8.dp),
-            elevation = 4.dp
+            shape = RoundedCornerShape(corner),
+            elevation = elevation
         ) {
             Row(modifier = Modifier.fillMaxSize()) {
                 Image(
@@ -93,7 +120,7 @@ private fun NatureRow(nature: Nature, onNatureClick: (Nature) -> Unit) {
                 )
                 Text(
                     text = "Nature ${nature.id}",
-                    modifier = Modifier.padding(PaddingValues(16.dp, 8.dp, 0.dp, 0.dp)),
+                    modifier = Modifier.padding(PaddingValues(padding, padding / 2, 0.dp, 0.dp)),
                     fontWeight = FontWeight(900)
                 )
             }
@@ -104,6 +131,7 @@ private fun NatureRow(nature: Nature, onNatureClick: (Nature) -> Unit) {
 @Preview
 @Composable
 fun PreviewMainScreen() {
-    val listState = rememberLazyListState()
-    Home.Content(listState)
+    val scrollState = rememberScrollState()
+    val carouselState = rememberLazyListState()
+    Home.Content(scrollState, carouselState)
 }

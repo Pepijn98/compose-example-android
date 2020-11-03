@@ -7,10 +7,13 @@ data class Nature(
     val image: Int
 )
 
-val images = listOf(
+val natureList1 = listOf(
     Nature(1, R.drawable.nature_1),
     Nature(2, R.drawable.nature_2),
-    Nature(3, R.drawable.nature_3),
+    Nature(3, R.drawable.nature_3)
+)
+
+val natureList2 = listOf(
     Nature(4, R.drawable.nature_4),
     Nature(5, R.drawable.nature_5),
     Nature(6, R.drawable.nature_6),

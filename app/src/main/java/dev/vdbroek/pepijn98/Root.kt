@@ -2,6 +2,7 @@ package dev.vdbroek.pepijn98
 
 import androidx.compose.foundation.Icon
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
@@ -34,7 +35,9 @@ interface Root {
         fun Content(defaultRouting: Routing = Routing.Home) {
             Router(defaultRouting) { backStack ->
                 val state = rememberScaffoldState()
-                val listState = rememberLazyListState()
+
+                val scrollState = rememberScrollState()
+                val carouselState = rememberLazyListState()
 
                 val onButtonClicked: (Routing) -> Unit = {
                     // pop element from backstack if it's more or equal to 2
@@ -73,7 +76,7 @@ interface Root {
                     bodyContent = {
                         // Changes the body content based on which route we're on
                         when (backStack.last()) {
-                            is Routing.Home -> Home.Content(listState = listState)
+                            is Routing.Home -> Home.Content(scrollState, carouselState)
                             is Routing.Profile -> Profile.Content()
                         }
                     }
