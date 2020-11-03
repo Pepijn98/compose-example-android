@@ -17,7 +17,9 @@ object ThemeState {
 private val DarkColorPalette = darkColors(
     primary = blue200,
     primaryVariant = blue700,
-    secondary = orange200
+    secondary = orange200,
+    background = darkBackground,
+    surface = darkSurface
 )
 
 private val LightColorPalette = lightColors(
