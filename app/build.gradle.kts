@@ -4,16 +4,13 @@ plugins {
     kotlin("android.extensions")
 }
 
-val compose_version = "1.0.0-alpha05"
-val kotlin_version = "1.4.10"
-
 android {
-    compileSdkVersion(30)
+    compileSdkVersion(Versions.targetSdk)
 
     defaultConfig {
         applicationId = "dev.vdbroek.pepijn98"
-        minSdkVersion(24)
-        targetSdkVersion(30)
+        minSdkVersion(Versions.minSdk)
+        targetSdkVersion(Versions.targetSdk)
         versionCode = 1
         versionName = "1.0"
 
@@ -41,29 +38,29 @@ android {
     }
 
     composeOptions {
-        kotlinCompilerExtensionVersion = compose_version
-        kotlinCompilerVersion = kotlin_version
+        kotlinCompilerExtensionVersion = Versions.compose
+        kotlinCompilerVersion = Versions.kotlin
     }
 }
 
 dependencies {
     implementation(kotlin("stdlib"))
 
-    implementation("com.google.android.material:material:1.2.1")
-    implementation("com.github.zsoltk:compose-router:0.21.0")
+    implementation(Dependencies.AndroidX.core)
+    implementation(Dependencies.AndroidX.appcompat)
+    implementation(Dependencies.AndroidX.preference)
+    implementation(Dependencies.AndroidX.lifecycle)
 
-    implementation("androidx.core:core-ktx:1.3.2")
-    implementation("androidx.appcompat:appcompat:1.2.0")
-    implementation("androidx.preference:preference-ktx:1.1.1")
-    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.3.0-beta01")
+    implementation(Dependencies.Compose.ui)
+    implementation(Dependencies.Compose.layout)
+    implementation(Dependencies.Compose.material)
+    implementation(Dependencies.Compose.foundation)
+    implementation(Dependencies.Compose.tooling)
+    implementation(Dependencies.Compose.router)
 
-    implementation("androidx.compose.ui:ui:$compose_version")
-    implementation("androidx.compose.foundation:foundation-layout:$compose_version")
-    implementation("androidx.compose.material:material:$compose_version")
-    implementation("androidx.compose.foundation:foundation:$compose_version")
-    implementation("androidx.ui:ui-tooling:$compose_version")
+    implementation(Dependencies.Google.material)
 
-    testImplementation("junit:junit:4.13.1")
-    androidTestImplementation("androidx.test.ext:junit:1.1.2")
-    androidTestImplementation("androidx.test.espresso:espresso-core:3.3.0")
+    testImplementation(Dependencies.Test.junit)
+    androidTestImplementation(Dependencies.Test.AndroidX.junitExt)
+    androidTestImplementation(Dependencies.Test.AndroidX.Espresso.core)
 }

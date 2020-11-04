@@ -4,11 +4,12 @@ buildscript {
     repositories {
         google()
         jcenter()
-        // maven(url = "http://dl.bintray.com/kotlin/kotlin-eap")
+        maven(url = "http://dl.bintray.com/kotlin/kotlin-eap")
     }
+
     dependencies {
-        classpath("com.android.tools.build:gradle:4.2.0-alpha15")
-        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.4.10")
+        classpath(Dependencies.android_gradle_plugin)
+        classpath(Dependencies.Kotlin.gradle)
     }
 }
 
@@ -17,13 +18,19 @@ allprojects {
         google()
         jcenter()
         maven(url = "https://jitpack.io")
-        // maven(url = "http://dl.bintray.com/kotlin/kotlin-eap")
+        maven(url = "http://dl.bintray.com/kotlin/kotlin-eap")
     }
 
     // Enable @OptIn annotation
-    tasks.withType(KotlinCompile::class).all {
+    tasks.withType<KotlinCompile> {
         kotlinOptions {
-            freeCompilerArgs += "-Xopt-in=kotlin.RequiresOptIn"
+            jvmTarget = JavaVersion.VERSION_1_8.toString()
+
+            freeCompilerArgs += listOf(
+                "-Xopt-in=kotlin.RequiresOptIn",
+                "-Xallow-jvm-ir-dependencies",
+                "-Xskip-prerelease-check"
+            )
         }
     }
 }
