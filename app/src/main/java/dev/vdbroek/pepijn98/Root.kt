@@ -1,6 +1,5 @@
 package dev.vdbroek.pepijn98
 
-import androidx.compose.foundation.Icon
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
@@ -38,16 +37,12 @@ interface Root {
                 val natureListState = rememberScrollState()
                 val natureCarouselState = rememberLazyListState()
 
-                val handleRoute: (Routing) -> Unit = {
-                    // Only push to the backstack if the last route isn't the same as the one it's trying to go to
-                    if (backStack.last() != it) {
-                        when (it) {
-                            Routing.Home -> backStack.push(Routing.Home)
-                            Routing.Profile -> backStack.push(Routing.Profile)
-                            else -> {
-                                // Do Nothing
-                            }
-                        }
+                fun modifyBackStack(routing: Routing) {
+                    // If route is second-last in the backstack use pop instead of push
+                    if (backStack.lastIndex != 0 && backStack.elements[backStack.lastIndex - 1] == routing) {
+                        backStack.pop()
+                    } else {
+                        backStack.push(routing)
                     }
                 }
 
@@ -64,7 +59,12 @@ interface Root {
                         Drawer()
                     },
                     bottomBar = {
-                        BottomBar(fabHidden, handleRoute)
+                        BottomBar(fabHidden) {
+                            // Only modify the backstack if the last route isn't the same as the one it's trying to go to
+                            if (backStack.last() != it) {
+                                modifyBackStack(it)
+                            }
+                        }
                     },
                     floatingActionButtonPosition = FabPosition.Center,
                     isFloatingActionButtonDocked = true,
@@ -80,7 +80,7 @@ interface Root {
                         // Changes the body content based on which route we're on
                         when (val routing = backStack.last()) {
                             is Routing.Home -> Home.Content(natureListState, natureCarouselState) {
-                                backStack.push(Routing.NatureDetails(it))
+                                modifyBackStack(Routing.NatureDetails(it))
                             }
                             is Routing.NatureDetails -> NatureDetails.Content(routing.nature)
                             is Routing.Profile -> Profile.Content()

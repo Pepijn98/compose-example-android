@@ -1,13 +1,9 @@
 package dev.vdbroek.pepijn98.common
 
 import android.widget.Toast
-import androidx.compose.foundation.Icon
 import androidx.compose.foundation.Text
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.material.BottomAppBar
-import androidx.compose.material.IconButton
-import androidx.compose.material.ScaffoldState
-import androidx.compose.material.TopAppBar
+import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Menu
@@ -22,7 +18,7 @@ import dev.vdbroek.pepijn98.Root
 import dev.vdbroek.pepijn98.fabShape
 
 @Composable
-fun TopBar(state: ScaffoldState, title: String?) {
+fun TopBar(state: ScaffoldState, title: String? = stringResource(id = R.string.app_name)) {
     val context = ContextAmbient.current
 
     TopAppBar(
