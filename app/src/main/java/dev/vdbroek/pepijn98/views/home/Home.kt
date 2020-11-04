@@ -28,6 +28,7 @@ import dev.vdbroek.pepijn98.title
 val padding = 16.dp
 val corner = 10.dp
 val elevation = 4.dp
+val defaultShape = RoundedCornerShape(corner)
 
 interface Home {
 
@@ -57,12 +58,12 @@ interface Home {
                         modifier = Modifier
                             .size(width = 220.dp, height = 220.dp - padding)
                             .padding(start = padding)
-                            .drawShadow(elevation, RoundedCornerShape(corner))
-                            .clip(RoundedCornerShape(corner))
+                            .drawShadow(elevation, defaultShape)
+                            .clip(defaultShape)
                     ) {
                         Card(
                             modifier = Modifier.fillMaxSize().clickable(onClick = { onNatureClicked(nature) }),
-                            shape = RoundedCornerShape(corner)
+                            shape = defaultShape
                         ) {
                             Image(
                                 asset = imageResource(id = nature.image),
@@ -107,12 +108,12 @@ private fun NatureRow(nature: Nature, onNatureClicked: (Nature) -> Unit) {
         modifier = Modifier
             .fillMaxWidth()
             .padding(padding, padding, padding, if (nature.id == 9) 74.dp else 0.dp)
-            .drawShadow(elevation, RoundedCornerShape(corner))
-            .clip(RoundedCornerShape(corner))
+            .drawShadow(elevation, defaultShape)
+            .clip(defaultShape)
     ) {
         Card(
             modifier = Modifier.fillMaxWidth().height(160.dp).clickable(onClick = { onNatureClicked(nature) }),
-            shape = RoundedCornerShape(corner)
+            shape = defaultShape
         ) {
             Row(modifier = Modifier.fillMaxSize()) {
                 Image(

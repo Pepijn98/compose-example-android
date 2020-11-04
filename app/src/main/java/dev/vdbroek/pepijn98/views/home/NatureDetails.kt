@@ -26,7 +26,7 @@ interface NatureDetails {
 
                 Image(
                     asset = imageResource(id = nature.image),
-                    modifier = Modifier.padding(start = padding, top = padding, end = padding).fillMaxWidth().height(180.dp).clip(RoundedCornerShape(corner)),
+                    modifier = Modifier.padding(start = padding, top = padding, end = padding).fillMaxWidth().height(180.dp).clip(defaultShape),
                     contentScale = ContentScale.FillWidth
                 )
                 Text(
