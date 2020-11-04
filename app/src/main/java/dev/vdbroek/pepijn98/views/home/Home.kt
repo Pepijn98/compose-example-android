@@ -12,6 +12,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.drawShadow
 import androidx.compose.ui.res.imageResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -53,12 +54,15 @@ interface Home {
                     contentPadding = PaddingValues(top = padding, end = padding)
                 ) { nature, _ ->
                     Box(
-                        modifier = Modifier.size(height = 220.dp - padding, width = 220.dp).padding(start = padding).clip(RoundedCornerShape(corner))
+                        modifier = Modifier
+                            .size(width = 220.dp, height = 220.dp - padding)
+                            .padding(start = padding)
+                            .drawShadow(elevation, RoundedCornerShape(corner))
+                            .clip(RoundedCornerShape(corner))
                     ) {
                         Card(
                             modifier = Modifier.fillMaxSize().clickable(onClick = { onNatureClicked(nature) }),
-                            shape = RoundedCornerShape(corner),
-                            elevation = elevation
+                            shape = RoundedCornerShape(corner)
                         ) {
                             Image(
                                 asset = imageResource(id = nature.image),
@@ -100,17 +104,15 @@ interface Home {
 @Composable
 private fun NatureRow(nature: Nature, onNatureClicked: (Nature) -> Unit) {
     Box(
-        modifier = Modifier.fillMaxWidth().padding(
-            start = padding,
-            top = padding,
-            end = padding,
-            bottom = if (nature.id == 9) 74.dp else 0.dp
-        ).clip(RoundedCornerShape(corner)),
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(padding, padding, padding, if (nature.id == 9) 74.dp else 0.dp)
+            .drawShadow(elevation, RoundedCornerShape(corner))
+            .clip(RoundedCornerShape(corner))
     ) {
         Card(
             modifier = Modifier.fillMaxWidth().height(160.dp).clickable(onClick = { onNatureClicked(nature) }),
-            shape = RoundedCornerShape(corner),
-            elevation = elevation
+            shape = RoundedCornerShape(corner)
         ) {
             Row(modifier = Modifier.fillMaxSize()) {
                 Image(
