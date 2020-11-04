@@ -8,9 +8,12 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.AlertDialog
 import androidx.compose.material.Button
 import androidx.compose.material.Card
+import androidx.compose.material.ripple.RippleIndication
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.res.imageResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -51,15 +54,19 @@ interface Home {
                     state = carouselState,
                     contentPadding = PaddingValues(top = padding, end = padding)
                 ) { nature, _ ->
-                    Card(
-                        modifier = Modifier.size(height = 220.dp - padding, width = 220.dp).padding(start = padding).clickable(onClick = { onNatureClicked(nature) }),
-                        shape = RoundedCornerShape(corner),
-                        elevation = elevation
+                    Box(
+                        modifier = Modifier.size(height = 220.dp - padding, width = 220.dp).padding(start = padding).clip(RoundedCornerShape(corner))
                     ) {
-                        Image(
-                            asset = imageResource(id = nature.image),
-                            modifier = Modifier.size(220.dp)
-                        )
+                        Card(
+                            modifier = Modifier.fillMaxSize().clickable(onClick = { onNatureClicked(nature) }),
+                            shape = RoundedCornerShape(corner),
+                            elevation = elevation
+                        ) {
+                            Image(
+                                asset = imageResource(id = nature.image),
+                                modifier = Modifier.size(220.dp)
+                            )
+                        }
                     }
                 }
 
@@ -100,7 +107,7 @@ private fun NatureRow(nature: Nature, onNatureClicked: (Nature) -> Unit) {
             top = padding,
             end = padding,
             bottom = if (nature.id == 9) 74.dp else 0.dp
-        )
+        ).clip(RoundedCornerShape(corner)),
     ) {
         Card(
             modifier = Modifier.fillMaxWidth().height(160.dp).clickable(onClick = { onNatureClicked(nature) }),

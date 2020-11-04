@@ -8,6 +8,7 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.runtime.*
+//import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.github.zsoltk.compose.router.Router
 import dev.vdbroek.pepijn98.common.*
@@ -36,6 +37,8 @@ interface Root {
 
                 val natureListState = rememberScrollState()
                 val natureCarouselState = rememberLazyListState()
+
+//                title = stringResource(id = R.string.app_name)
 
                 fun modifyBackStack(routing: Routing) {
                     // If route is second-last in the backstack use pop instead of push
