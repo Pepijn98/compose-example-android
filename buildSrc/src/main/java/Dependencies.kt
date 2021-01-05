@@ -1,14 +1,14 @@
 @file:JvmName("Deps")
 
 object Versions {
-    const val compose = "1.0.0-alpha06"
-    const val kotlin = "1.4.10"
+    const val compose = "1.0.0-alpha09"
+    const val kotlin = "1.4.21"
     const val targetSdk = 30
     const val minSdk = 24
 }
 
 object Dependencies {
-    const val android_gradle_plugin = "com.android.tools.build:gradle:4.2.0-alpha15"
+    const val android_gradle_plugin = "com.android.tools.build:gradle:7.0.0-alpha03"
 
     object AndroidX {
         const val core = "androidx.core:core-ktx:1.3.2"
@@ -19,12 +19,12 @@ object Dependencies {
 
     object Compose {
         const val ui = "androidx.compose.ui:ui:${Versions.compose}"
+        const val tooling = "androidx.compose.ui:ui-tooling:${Versions.compose}"
         const val layout = "androidx.compose.foundation:foundation-layout:${Versions.compose}"
         const val material = "androidx.compose.material:material:${Versions.compose}"
         const val foundation = "androidx.compose.foundation:foundation:${Versions.compose}"
-        const val tooling = "androidx.ui:ui-tooling:${Versions.compose}"
 
-        const val router = "com.github.zsoltk:compose-router:0.21.0"
+        const val router = "com.github.zsoltk:compose-router:0.23.0"
     }
 
     object Kotlin {

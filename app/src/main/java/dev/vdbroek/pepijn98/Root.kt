@@ -1,5 +1,6 @@
 package dev.vdbroek.pepijn98
 
+//import androidx.compose.ui.res.stringResource
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
@@ -7,11 +8,15 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
-import androidx.compose.runtime.*
-//import androidx.compose.ui.res.stringResource
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.unit.dp
 import com.github.zsoltk.compose.router.Router
-import dev.vdbroek.pepijn98.common.*
+import dev.vdbroek.pepijn98.common.BottomBar
+import dev.vdbroek.pepijn98.common.Drawer
+import dev.vdbroek.pepijn98.common.TopBar
 import dev.vdbroek.pepijn98.models.Nature
 import dev.vdbroek.pepijn98.views.home.Home
 import dev.vdbroek.pepijn98.views.home.NatureDetails
@@ -76,7 +81,7 @@ interface Root {
                             shape = fabShape,
                             onClick = { openDialog = true }
                         ) {
-                            Icon(asset = Icons.Filled.Add)
+                            Icon(imageVector = Icons.Filled.Add)
                         }
                     },
                     bodyContent = {

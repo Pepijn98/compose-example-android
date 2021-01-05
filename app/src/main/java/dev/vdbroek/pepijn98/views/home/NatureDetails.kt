@@ -1,10 +1,11 @@
 package dev.vdbroek.pepijn98.views.home
 
-import androidx.compose.foundation.*
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.ScrollableColumn
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -25,8 +26,12 @@ interface NatureDetails {
                 title = "Nature ${nature.id}"
 
                 Image(
-                    asset = imageResource(id = nature.image),
-                    modifier = Modifier.padding(start = padding, top = padding, end = padding).fillMaxWidth().height(180.dp).clip(defaultShape),
+                    bitmap = imageResource(id = nature.image),
+                    modifier = Modifier
+                        .padding(start = padding, top = padding, end = padding)
+                        .fillMaxWidth()
+                        .height(180.dp)
+                        .clip(defaultShape),
                     contentScale = ContentScale.FillWidth
                 )
                 Text(

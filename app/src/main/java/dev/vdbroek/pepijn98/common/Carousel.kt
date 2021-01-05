@@ -3,7 +3,7 @@ package dev.vdbroek.pepijn98.common
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.lazy.LazyItemScope
 import androidx.compose.foundation.lazy.LazyListState
-import androidx.compose.foundation.lazy.LazyRowFor
+import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -19,20 +19,19 @@ fun <T> Carousel(
     contentPadding: PaddingValues = PaddingValues(0.dp),
     itemSpacing: Dp = 0.dp,
     verticalAlignment: Alignment.Vertical = Alignment.Top,
-    itemContent: @Composable LazyItemScope.(T, PaddingValues) -> Unit
+    itemContent: @Composable LazyItemScope.(T) -> Unit
 ) {
     val halfSpacing = itemSpacing / 2
-    val spacingContent = PaddingValues(start = halfSpacing, end = halfSpacing)
 
-    LazyRowFor(
-        items = items,
+    LazyRow(
         modifier = modifier,
         state = state,
         contentPadding = contentPadding.copy(
             start = (contentPadding.start - halfSpacing).coerceAtLeast(0.dp),
             end = (contentPadding.end - halfSpacing).coerceAtLeast(0.dp)
         ),
-        verticalAlignment = verticalAlignment,
-        itemContent = { item -> itemContent(item, spacingContent) }
-    )
+        verticalAlignment = verticalAlignment
+    ) {
+        items(items, itemContent)
+    }
 }

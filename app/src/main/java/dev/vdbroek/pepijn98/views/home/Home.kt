@@ -1,28 +1,31 @@
 package dev.vdbroek.pepijn98.views.home
 
-import androidx.compose.foundation.*
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.ScrollState
+import androidx.compose.foundation.ScrollableColumn
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.AlertDialog
 import androidx.compose.material.Button
 import androidx.compose.material.Card
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.drawShadow
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.res.imageResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import dev.vdbroek.pepijn98.R
 import dev.vdbroek.pepijn98.common.Carousel
-import dev.vdbroek.pepijn98.openDialog
 import dev.vdbroek.pepijn98.models.Nature
 import dev.vdbroek.pepijn98.models.natureList1
 import dev.vdbroek.pepijn98.models.natureList2
+import dev.vdbroek.pepijn98.openDialog
 import dev.vdbroek.pepijn98.title
 
 val padding = 16.dp
@@ -53,12 +56,12 @@ interface Home {
                     items = natureList1 + natureList2,
                     state = carouselState,
                     contentPadding = PaddingValues(top = padding, end = padding)
-                ) { nature, _ ->
+                ) { nature ->
                     Box(
                         modifier = Modifier
                             .size(width = 220.dp, height = 220.dp - padding)
                             .padding(start = padding)
-                            .drawShadow(elevation, defaultShape)
+                            .shadow(elevation, defaultShape)
                             .clip(defaultShape)
                     ) {
                         Card(
@@ -66,7 +69,7 @@ interface Home {
                             shape = defaultShape
                         ) {
                             Image(
-                                asset = imageResource(id = nature.image),
+                                bitmap = imageResource(id = nature.image),
                                 modifier = Modifier.size(220.dp)
                             )
                         }
@@ -108,7 +111,7 @@ private fun NatureRow(nature: Nature, onNatureClicked: (Nature) -> Unit) {
         modifier = Modifier
             .fillMaxWidth()
             .padding(padding, padding, padding, if (nature.id == 9) 74.dp else 0.dp)
-            .drawShadow(elevation, defaultShape)
+            .shadow(elevation, defaultShape)
             .clip(defaultShape)
     ) {
         Card(
@@ -117,8 +120,8 @@ private fun NatureRow(nature: Nature, onNatureClicked: (Nature) -> Unit) {
         ) {
             Row(modifier = Modifier.fillMaxSize()) {
                 Image(
+                    bitmap = imageResource(id = nature.image),
                     modifier = Modifier.fillMaxHeight().width(160.dp),
-                    asset = imageResource(id = nature.image),
                     alignment = Alignment.CenterStart
                 )
                 Text(
