@@ -18,8 +18,21 @@ android {
 
     buildTypes {
         getByName("release") {
-            isMinifyEnabled = false
+            isShrinkResources = true
+            isMinifyEnabled = true
+
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+
+            debuggable(false)
+            jniDebuggable(false)
+            renderscriptDebuggable(false)
+            isPseudoLocalesEnabled = false
+        }
+
+        getByName("debug") {
+            versionNameSuffix = "-DEBUG"
+            isMinifyEnabled = false
+            debuggable(true)
         }
     }
 
