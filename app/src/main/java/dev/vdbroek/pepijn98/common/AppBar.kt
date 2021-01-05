@@ -38,8 +38,8 @@ fun TopBar(state: ScaffoldState, title: String? = stringResource(id = R.string.a
 }
 
 @Composable
-fun BottomBar(fabHidden: Boolean, onButtonClicked: (Root.Routing) -> Unit) {
-    BottomAppBar(cutoutShape = if (fabHidden) null else fabShape) {
+fun BottomBar(hasCutout: Boolean, onButtonClicked: (Root.Routing) -> Unit) {
+    BottomAppBar(cutoutShape = if (hasCutout) fabShape else null) {
         IconButton(onClick = { onButtonClicked(Root.Routing.Home) }) {
             Icon(imageVector = Icons.Filled.Home)
         }

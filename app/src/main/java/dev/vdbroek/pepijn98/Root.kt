@@ -54,6 +54,7 @@ interface Root {
                     }
                 }
 
+                // Hide FAB on nature details screen
                 val fabHidden = backStack.last() is Routing.NatureDetails
 
                 // Default scaffold which holds all the content
@@ -63,11 +64,9 @@ interface Root {
                         TopBar(state = state, title = title)
                     },
                     drawerShape = RoundedCornerShape(topRight = 10.dp, bottomRight = 10.dp),
-                    drawerContent = {
-                        Drawer()
-                    },
+                    drawerContent = { Drawer() },
                     bottomBar = {
-                        BottomBar(fabHidden) {
+                        BottomBar(hasCutout = !fabHidden) {
                             // Only modify the backstack if the last route isn't the same as the one it's trying to go to
                             if (backStack.last() != it) {
                                 modifyBackStack(it)
@@ -77,11 +76,13 @@ interface Root {
                     floatingActionButtonPosition = FabPosition.Center,
                     isFloatingActionButtonDocked = true,
                     floatingActionButton = {
-                        if (!fabHidden) FloatingActionButton(
-                            shape = fabShape,
-                            onClick = { openDialog = true }
-                        ) {
-                            Icon(imageVector = Icons.Filled.Add)
+                        if (!fabHidden) {
+                            FloatingActionButton(
+                                shape = fabShape,
+                                onClick = { openDialog = true }
+                            ) {
+                                Icon(imageVector = Icons.Filled.Add)
+                            }
                         }
                     },
                     bodyContent = {
