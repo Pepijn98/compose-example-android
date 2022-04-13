@@ -3,8 +3,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 buildscript {
     repositories {
         google()
-        jcenter()
-        maven(url = "http://dl.bintray.com/kotlin/kotlin-eap")
+        mavenCentral()
     }
 
     dependencies {
@@ -16,9 +15,8 @@ buildscript {
 allprojects {
     repositories {
         google()
-        jcenter()
+        mavenCentral()
         maven(url = "https://jitpack.io")
-        maven(url = "http://dl.bintray.com/kotlin/kotlin-eap")
     }
 
     // Enable @OptIn annotation
@@ -27,9 +25,7 @@ allprojects {
             jvmTarget = JavaVersion.VERSION_1_8.toString()
 
             freeCompilerArgs += listOf(
-                "-Xopt-in=kotlin.RequiresOptIn",
-                "-Xallow-jvm-ir-dependencies",
-                "-Xskip-prerelease-check"
+                "-Xopt-in=kotlin.RequiresOptIn"
             )
         }
     }

@@ -1,16 +1,19 @@
 package dev.vdbroek.pepijn98.views.home
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.ScrollableColumn
+import androidx.compose.foundation.ScrollState
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.imageResource
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import dev.vdbroek.pepijn98.models.Nature
 import dev.vdbroek.pepijn98.title
@@ -18,21 +21,29 @@ import dev.vdbroek.pepijn98.title
 interface NatureDetails {
 
     companion object {
+
+        lateinit var scollState: ScrollState
+
         @Composable
         fun Content(nature: Nature) {
-            ScrollableColumn(
-                modifier = Modifier.padding(0.dp)
+            scollState = rememberScrollState()
+
+            Column(
+                modifier = Modifier
+                    .verticalScroll(scollState)
+                    .padding(0.dp)
             ) {
                 title = "Nature ${nature.id}"
 
                 Image(
-                    bitmap = imageResource(id = nature.image),
+                    painter = painterResource(id = nature.image),
                     modifier = Modifier
                         .padding(start = padding, top = padding, end = padding)
                         .fillMaxWidth()
                         .height(180.dp)
                         .clip(defaultShape),
-                    contentScale = ContentScale.FillWidth
+                    contentScale = ContentScale.FillWidth,
+                    contentDescription = null
                 )
                 Text(
                     text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",

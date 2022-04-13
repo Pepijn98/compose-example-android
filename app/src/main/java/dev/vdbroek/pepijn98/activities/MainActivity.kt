@@ -1,13 +1,13 @@
 package dev.vdbroek.pepijn98.activities
 
 import android.os.Bundle
+import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.Providers
-import androidx.compose.ui.platform.setContent
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.tooling.preview.Preview
-import com.github.zsoltk.compose.backpress.AmbientBackPressHandler
 import com.github.zsoltk.compose.backpress.BackPressHandler
+import com.github.zsoltk.compose.backpress.LocalBackPressHandler
 import dev.vdbroek.pepijn98.Root
 import dev.vdbroek.pepijn98.ui.Pepijn98Theme
 
@@ -18,7 +18,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             Pepijn98Theme {
-                Providers(AmbientBackPressHandler provides backPressHandler) {
+                CompositionLocalProvider(LocalBackPressHandler provides backPressHandler) {
                     Root.Content()
                 }
             }
@@ -37,7 +37,7 @@ class MainActivity : AppCompatActivity() {
 fun DefaultPreview() {
     val backPressHandler = BackPressHandler()
     Pepijn98Theme {
-        Providers(AmbientBackPressHandler provides backPressHandler) {
+        CompositionLocalProvider(LocalBackPressHandler provides backPressHandler) {
             Root.Content()
         }
     }

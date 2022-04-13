@@ -15,17 +15,17 @@ object ThemeState {
 }
 
 private val DarkColorPalette = darkColors(
-    primary = blue200,
-    primaryVariant = blue700,
-    secondary = orange200,
-    background = darkBackground,
-    surface = darkSurface
+    primary = ColorUI.blue200,
+    primaryVariant = ColorUI.blue700,
+    secondary = ColorUI.orange200,
+    background = ColorUI.darkBackground,
+    surface = ColorUI.darkSurface
 )
 
 private val LightColorPalette = lightColors(
-    primary = blue200,
-    primaryVariant = blue700,
-    secondary = orange200
+    primary = ColorUI.blue200,
+    primaryVariant = ColorUI.blue700,
+    secondary = ColorUI.orange200
 )
 
 @Composable

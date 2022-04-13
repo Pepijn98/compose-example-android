@@ -4,12 +4,12 @@ plugins {
 }
 
 android {
-    compileSdkVersion(Versions.targetSdk)
+    compileSdk = Versions.targetSdk
 
     defaultConfig {
         applicationId = "dev.vdbroek.pepijn98"
-        minSdkVersion(Versions.minSdk)
-        targetSdkVersion(Versions.targetSdk)
+        minSdk = Versions.minSdk
+        targetSdk = Versions.targetSdk
         versionCode = 1
         versionName = "1.0.0"
 
@@ -23,16 +23,16 @@ android {
 
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
 
-            debuggable(false)
-            jniDebuggable(false)
-            renderscriptDebuggable(false)
+            isDebuggable = false
+            isJniDebuggable = false
+            isRenderscriptDebuggable = false
             isPseudoLocalesEnabled = false
         }
 
         getByName("debug") {
             versionNameSuffix = "-DEBUG"
             isMinifyEnabled = false
-            debuggable(true)
+            isDebuggable = true
         }
     }
 
@@ -43,7 +43,6 @@ android {
 
     kotlinOptions {
         jvmTarget = JavaVersion.VERSION_1_8.toString()
-        useIR = true
     }
 
     buildFeatures {
@@ -53,7 +52,6 @@ android {
 
     composeOptions {
         kotlinCompilerExtensionVersion = Versions.compose
-        kotlinCompilerVersion = Versions.kotlin
     }
 }
 
@@ -70,7 +68,10 @@ dependencies {
     implementation(Dependencies.Compose.material)
     implementation(Dependencies.Compose.foundation)
     implementation(Dependencies.Compose.tooling)
+    implementation(Dependencies.Compose.runtime)
     implementation(Dependencies.Compose.router)
+    implementation(Dependencies.Compose.activity)
+    implementation(Dependencies.Compose.activity_ktx)
 
     implementation(Dependencies.Google.material)
 

@@ -2,11 +2,11 @@ package dev.vdbroek.pepijn98.views.home
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.ScrollState
-import androidx.compose.foundation.ScrollableColumn
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.AlertDialog
 import androidx.compose.material.Button
 import androidx.compose.material.Card
@@ -16,7 +16,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
-import androidx.compose.ui.res.imageResource
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -36,6 +36,7 @@ val defaultShape = RoundedCornerShape(corner)
 interface Home {
 
     companion object {
+
         @Composable
         fun Content(
             scrollState: ScrollState,
@@ -44,19 +45,23 @@ interface Home {
         ) {
             title = stringResource(id = R.string.app_name)
 
-            ScrollableColumn(
-                modifier = Modifier.padding(0.dp),
-                scrollState = scrollState
+            Column(
+                modifier = Modifier
+                    .verticalScroll(scrollState)
+                    .padding(0.dp),
             ) {
                 for (nature in natureList1) {
                     NatureRow(nature, onNatureClicked)
                 }
 
+                val items = natureList1 + natureList2
                 Carousel(
-                    items = natureList1 + natureList2,
+                    listItems = items,
                     state = carouselState,
                     contentPadding = PaddingValues(top = padding, end = padding)
-                ) { nature ->
+                ) { index ->
+                    val nature = items[index]
+
                     Box(
                         modifier = Modifier
                             .size(width = 220.dp, height = 220.dp - padding)
@@ -65,12 +70,15 @@ interface Home {
                             .clip(defaultShape)
                     ) {
                         Card(
-                            modifier = Modifier.fillMaxSize().clickable(onClick = { onNatureClicked(nature) }),
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .clickable(onClick = { onNatureClicked(nature) }),
                             shape = defaultShape
                         ) {
                             Image(
-                                bitmap = imageResource(id = nature.image),
-                                modifier = Modifier.size(220.dp)
+                                painter = painterResource(id = nature.image),
+                                modifier = Modifier.size(220.dp),
+                                contentDescription = null
                             )
                         }
                     }
@@ -115,14 +123,20 @@ private fun NatureRow(nature: Nature, onNatureClicked: (Nature) -> Unit) {
             .clip(defaultShape)
     ) {
         Card(
-            modifier = Modifier.fillMaxWidth().height(160.dp).clickable(onClick = { onNatureClicked(nature) }),
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(160.dp)
+                .clickable(onClick = { onNatureClicked(nature) }),
             shape = defaultShape
         ) {
             Row(modifier = Modifier.fillMaxSize()) {
                 Image(
-                    bitmap = imageResource(id = nature.image),
-                    modifier = Modifier.fillMaxHeight().width(160.dp),
-                    alignment = Alignment.CenterStart
+                    painter = painterResource(id = nature.image),
+                    modifier = Modifier
+                        .fillMaxHeight()
+                        .width(160.dp),
+                    alignment = Alignment.CenterStart,
+                    contentDescription = null
                 )
                 Text(
                     text = "Nature ${nature.id}",

@@ -1,6 +1,5 @@
 package dev.vdbroek.pepijn98
 
-//import androidx.compose.ui.res.stringResource
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
@@ -18,6 +17,7 @@ import dev.vdbroek.pepijn98.common.BottomBar
 import dev.vdbroek.pepijn98.common.Drawer
 import dev.vdbroek.pepijn98.common.TopBar
 import dev.vdbroek.pepijn98.models.Nature
+import dev.vdbroek.pepijn98.utils.Alert
 import dev.vdbroek.pepijn98.views.home.Home
 import dev.vdbroek.pepijn98.views.home.NatureDetails
 import dev.vdbroek.pepijn98.views.profile.Profile
@@ -63,7 +63,7 @@ interface Root {
                     topBar = {
                         TopBar(state = state, title = title)
                     },
-                    drawerShape = RoundedCornerShape(topRight = 10.dp, bottomRight = 10.dp),
+                    drawerShape = RoundedCornerShape(topEnd = 10.dp, bottomEnd = 10.dp),
                     drawerContent = { Drawer() },
                     bottomBar = {
                         BottomBar(hasCutout = !fabHidden) {
@@ -81,11 +81,19 @@ interface Root {
                                 shape = fabShape,
                                 onClick = { openDialog = true }
                             ) {
-                                Icon(imageVector = Icons.Filled.Add)
+                                Icon(imageVector = Icons.Filled.Add, contentDescription = null)
                             }
                         }
                     },
-                    bodyContent = {
+                    snackbarHost = {
+                        Alert(
+                            hostState = it,
+                            onDismiss = {
+                                it.currentSnackbarData?.dismiss()
+                            }
+                        )
+                    },
+                    content = {
                         // Changes the body content based on which route we're on
                         when (val routing = backStack.last()) {
                             is Routing.Home -> Home.Content(natureListState, natureCarouselState) {

@@ -10,16 +10,19 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import dev.vdbroek.pepijn98.utils.copy
+import dev.vdbroek.pepijn98.utils.end
+import dev.vdbroek.pepijn98.utils.start
 
 @Composable
 fun <T> Carousel(
-    items: List<T>,
+    listItems: List<T>,
     modifier: Modifier = Modifier,
     state: LazyListState = rememberLazyListState(),
     contentPadding: PaddingValues = PaddingValues(0.dp),
     itemSpacing: Dp = 0.dp,
     verticalAlignment: Alignment.Vertical = Alignment.Top,
-    itemContent: @Composable LazyItemScope.(T) -> Unit
+    itemContent: @Composable LazyItemScope.(index: Int) -> Unit
 ) {
     val halfSpacing = itemSpacing / 2
 
@@ -32,6 +35,6 @@ fun <T> Carousel(
         ),
         verticalAlignment = verticalAlignment
     ) {
-        items(items, itemContent)
+        items(listItems.count(), null, itemContent)
     }
 }
